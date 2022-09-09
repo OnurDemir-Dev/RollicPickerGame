@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject pushobject;
 
     Touch touch;
     public float speed = 5.0f;
@@ -65,7 +63,6 @@ public class PlayerScript : MonoBehaviour
         if(other.tag == "StopPoint")
         {
             GameManager.gameStatus = GameManager.GameStatus.pause;
-            pushobject.transform.localScale = new Vector3(pushobject.transform.localScale.x, pushobject.transform.localScale.y, 1.0f);
         }
     }
 }

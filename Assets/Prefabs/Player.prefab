@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f213ea69fa89eb64397f03df13515917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushobject: {fileID: 0}
   speed: 10
   horizontalspeed: 0.07
 --- !u!54 &1619637059949580768
@@ -170,8 +169,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32595238, y: 0.24979997, z: 1.5072938}
-  m_Center: {x: -0.8427795, y: 0.07838118, z: 0.25364703}
+  m_Size: {x: 0.32595238, y: 0.24979997, z: 1.9865124}
+  m_Center: {x: -0.8427795, y: 0.07838118, z: 0.014037728}
 --- !u!1 &5151804090270619638
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,5 +213,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32595238, y: 0.2468288, z: 1.5072938}
-  m_Center: {x: -0.8427795, y: 0.07986677, z: 0.25364703}
+  m_Size: {x: 0.32595238, y: 0.2468288, z: 2.0681257}
+  m_Center: {x: -0.8427795, y: 0.07986677, z: -0.026768923}
