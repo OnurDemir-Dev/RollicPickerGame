@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   horizontalspeed: 0.07
+  maxXValue: 3.5
 --- !u!54 &1619637059949580768
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -169,8 +170,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32595238, y: 0.24979997, z: 1.9865124}
-  m_Center: {x: -0.8427795, y: 0.07838118, z: 0.014037728}
+  m_Size: {x: 0.32595238, y: 0.3354441, z: 1.9865124}
+  m_Center: {x: -0.8427795, y: 0.121203244, z: 0.014037728}
 --- !u!1 &5151804090270619638
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,5 +214,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32595238, y: 0.2468288, z: 2.0681257}
-  m_Center: {x: -0.8427795, y: 0.07986677, z: -0.026768923}
+  m_Size: {x: 0.32595238, y: 0.3487283, z: 2.0681257}
+  m_Center: {x: -0.8427795, y: 0.13081652, z: -0.026768923}

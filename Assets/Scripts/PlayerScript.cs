@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,15 @@ public class PlayerScript : MonoBehaviour
 {
 
     Touch touch;
-    public float speed = 5.0f;
-    public float horizontalspeed = 0.5f;
+    [SerializeField]
+    private float speed = 5.0f;
+
+    [SerializeField]
+    private float horizontalspeed = 0.5f;
+
+    [SerializeField]
+    private float maxXValue = 3.25f;
+
     void Start()
     {
         
@@ -15,17 +23,25 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            if (GameManager.gameStatus == GameManager.GameStatus.start)
-            {
-                GameManager.gameStatus = GameManager.GameStatus.progress;
-            }
-        }
+        
        
     }
 
     private void FixedUpdate()
+    {
+        PlayerMovement();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "StopPoint")
+        {
+            GameManager.gameStatus = GameManager.GameStatus.pause;
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void PlayerMovement()
     {
         if (GameManager.gameStatus == GameManager.GameStatus.progress)
         {
@@ -37,7 +53,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.touchCount > 0)
             {
                 touch = Input.GetTouch(0);
-                if(touch.phase == TouchPhase.Moved)
+                if (touch.phase == TouchPhase.Moved)
                 {
                     movevalue = touch.deltaPosition.x * horizontalspeed;
                 }
@@ -54,15 +70,10 @@ public class PlayerScript : MonoBehaviour
             }
 #endif 
             #endregion
-            transform.Translate(new Vector3(movevalue, 0.0f, speed * Time.deltaTime));
-        }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "StopPoint")
-        {
-            GameManager.gameStatus = GameManager.GameStatus.pause;
+            if ((transform.position.x + movevalue) >= maxXValue || (transform.position.x + movevalue) <= -maxXValue) movevalue = 0;
+
+            transform.Translate(new Vector3(movevalue, 0.0f, speed * Time.deltaTime));
         }
     }
 }

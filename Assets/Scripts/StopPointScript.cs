@@ -14,9 +14,11 @@ public class StopPointScript : MonoBehaviour
     [SerializeField]
     TextMeshPro CountText;
 
+    bool alreadyrun = false;
+
     void Start()
     {
-        
+        CountText.text = CurrentValue.ToString() + "/" + MaxValue.ToString();
     }
 
     void Update()
@@ -28,8 +30,24 @@ public class StopPointScript : MonoBehaviour
     {
         if(other.tag == "PushObject")
         {
+            if (!alreadyrun) StartCoroutine(StartCount());
             CurrentValue++;
             CountText.text = CurrentValue.ToString() + "/" + MaxValue.ToString();
+        }
+    }
+
+    private IEnumerator StartCount()
+    {
+        alreadyrun = true;
+        yield return new WaitForSeconds(3);
+        if(CurrentValue >= MaxValue)
+        {
+            Debug.Log("Complete");
+            GameManager.gameStatus = GameManager.GameStatus.progress;
+        }
+        else
+        {
+            Debug.Log("Not Complete");
         }
     }
 }
