@@ -6,6 +6,11 @@ using TMPro;
 public class StopPointScript : MonoBehaviour
 {
     [SerializeField]
+    GameObject[] levels;
+
+    GameManager gameManager;
+
+    [SerializeField]
     private int MaxValue;
 
     [SerializeField]
@@ -19,6 +24,7 @@ public class StopPointScript : MonoBehaviour
     void Start()
     {
         CountText.text = CurrentValue.ToString() + "/" + MaxValue.ToString();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
@@ -28,26 +34,32 @@ public class StopPointScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "PushObject")
+        if (other.tag == "PushObject")
         {
-            if (!alreadyrun) StartCoroutine(StartCount());
+
             CurrentValue++;
             CountText.text = CurrentValue.ToString() + "/" + MaxValue.ToString();
+        }
+        if (other.tag == "Player")
+        {
+            if (!alreadyrun) StartCoroutine(StartCount());
         }
     }
 
     private IEnumerator StartCount()
     {
         alreadyrun = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         if(CurrentValue >= MaxValue)
         {
             Debug.Log("Complete");
             GameManager.gameStatus = GameManager.GameStatus.progress;
+            gameManager.AddPoint();
         }
         else
         {
             Debug.Log("Not Complete");
+            gameManager.GameOver();
         }
     }
 }

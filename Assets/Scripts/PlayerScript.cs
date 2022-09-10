@@ -11,10 +11,14 @@ public class PlayerScript : MonoBehaviour
     private float speed = 5.0f;
 
     [SerializeField]
-    private float horizontalspeed = 0.5f;
+    private float horizontalspeed = 0.001f;
+
+    [SerializeField]
+    private float maxhorizontalspeed = 0.1f;
 
     [SerializeField]
     private float maxXValue = 3.25f;
+
 
     void Start()
     {
@@ -38,6 +42,25 @@ public class PlayerScript : MonoBehaviour
         {
             GameManager.gameStatus = GameManager.GameStatus.pause;
             Destroy(other.gameObject);
+        }
+        if(other.tag == "LevelUp")
+        {
+            GameManager.Level++;
+            GameManager.NewLevel++;
+            Debug.Log(GameManager.NewLevel);
+            Destroy(other.gameObject);
+            GameObject instantlevel;
+            if (GameManager.Level > GameManager.MaxLevel)
+            {
+                int randomlevel = UnityEngine.Random.Range(1, GameManager.MaxLevel);
+                instantlevel = Resources.Load<GameObject>("Levels/Level" + randomlevel.ToString());
+            }
+            else
+            {
+                instantlevel  = Resources.Load<GameObject>("Levels/Level" + (GameManager.Level).ToString());
+            }
+            Destroy(GameManager.CurrentLevel);
+            GameManager.CurrentLevel = GameObject.Instantiate(instantlevel, new Vector3(9.0f, 7.1f, -3.5f + (GameManager.NewLevel * 150.5f)), Quaternion.identity);
         }
     }
 
@@ -66,12 +89,13 @@ public class PlayerScript : MonoBehaviour
 #if UNITY_EDITOR
             if (Input.GetAxisRaw("Horizontal") != 0.0f)
             {
-                movevalue = Input.GetAxisRaw("Horizontal") * horizontalspeed;
+                movevalue = Input.GetAxisRaw("Horizontal") * maxhorizontalspeed;
             }
 #endif 
             #endregion
 
             if ((transform.position.x + movevalue) >= maxXValue || (transform.position.x + movevalue) <= -maxXValue) movevalue = 0;
+            movevalue = Mathf.Clamp(movevalue, -maxhorizontalspeed, maxhorizontalspeed);
 
             transform.Translate(new Vector3(movevalue, 0.0f, speed * Time.deltaTime));
         }
