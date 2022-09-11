@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float maxXValue = 3.25f;
 
+    [SerializeField]
+    GameManager gameManager;
 
     void Start()
     {
@@ -45,22 +48,40 @@ public class PlayerScript : MonoBehaviour
         }
         if(other.tag == "LevelUp")
         {
-            GameManager.Level++;
-            GameManager.NewLevel++;
-            Debug.Log(GameManager.NewLevel);
-            Destroy(other.gameObject);
-            GameObject instantlevel;
-            if (GameManager.Level > GameManager.MaxLevel)
+            if (GameManager.LastLevel == null)
             {
-                int randomlevel = UnityEngine.Random.Range(1, GameManager.MaxLevel);
-                instantlevel = Resources.Load<GameObject>("Levels/Level" + randomlevel.ToString());
+                GameManager.Level++;
+                GameManager.NewLevel++;
+                PlayerPrefs.SetInt("Level", GameManager.Level);
+                gameManager.ChangeLevelText();
+
+                Debug.Log(GameManager.NewLevel);
+                Destroy(other.gameObject);
+                GameObject instantlevel;
+                if (GameManager.Level > GameManager.MaxLevel)
+                {
+                    int randomlevel = UnityEngine.Random.Range(1, GameManager.MaxLevel + 1);
+                    instantlevel = Resources.Load<GameObject>("Levels/Level" + randomlevel.ToString());
+                }
+                else
+                {
+                    instantlevel = Resources.Load<GameObject>("Levels/Level" + (GameManager.Level).ToString());
+                }
+
+                GameManager.LastLevel = GameObject.Instantiate(instantlevel, new Vector3(9.0f, 7.1f, -3.5f + (GameManager.NewLevel * 166.0f)), Quaternion.identity);
+                GameManager.gameStatus = GameManager.GameStatus.pause;
+                transform.DOMoveZ(transform.position.z + 20.0f, 2.0f);
             }
-            else
+        }
+        if(other.tag == "DeleteLevel")
+        {
+            if (GameManager.LastLevel)
             {
-                instantlevel  = Resources.Load<GameObject>("Levels/Level" + (GameManager.Level).ToString());
+                Destroy(GameManager.FirstLevel);
+                GameManager.FirstLevel = GameManager.LastLevel;
+                GameManager.LastLevel = null;
+                gameManager.LevelCompleteScreen.SetActive(true);
             }
-            Destroy(GameManager.CurrentLevel);
-            GameManager.CurrentLevel = GameObject.Instantiate(instantlevel, new Vector3(9.0f, 7.1f, -3.5f + (GameManager.NewLevel * 150.5f)), Quaternion.identity);
         }
     }
 

@@ -8,6 +8,7 @@ TagManager:
   - PushObject
   - GameManager
   - LevelUp
+  - DeleteLevel
   layers:
   - Default
   - TransparentFX

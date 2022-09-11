@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class StopPointScript : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] levels;
+    GameObject objects;
+
+    [SerializeField]
+    GameObject elevatorfloor;
+
+    [SerializeField]
+    ParticleSystem partyparticle;
 
     GameManager gameManager;
 
@@ -53,13 +60,17 @@ public class StopPointScript : MonoBehaviour
         if(CurrentValue >= MaxValue)
         {
             Debug.Log("Complete");
-            GameManager.gameStatus = GameManager.GameStatus.progress;
-            gameManager.AddPoint();
+            partyparticle.Play();
+            elevatorfloor.transform.DOLocalMoveY(0.72f, 1.0f).OnComplete(() =>
+            {
+                GameManager.gameStatus = GameManager.GameStatus.progress;
+            });
         }
         else
         {
             Debug.Log("Not Complete");
             gameManager.GameOver();
         }
+        objects.transform.DOScale(0, 2.0f).OnComplete(() => Destroy(objects));
     }
 }

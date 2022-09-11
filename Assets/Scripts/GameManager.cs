@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using DG.Tweening;
+using DG.Tweening.Core.Easing;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,32 +19,52 @@ public class GameManager : MonoBehaviour
     public static GameStatus gameStatus = GameStatus.start;
 
     #region UIVariables
+    [Header("UI Variables")]
     [SerializeField]
-    GameObject StartScreen;
+    public GameObject StartScreen;
+
+    [SerializeField]
+    public GameObject LevelCompleteScreen;
 
     [SerializeField]
     GameObject GameOverScreen;
 
+    [Header("UI Text")]
     [SerializeField]
     Text pointtext;
+
+    [SerializeField]
+    Text leveltext;
     #endregion
 
-    public int CurrentLevelPoint = 0;
-
-    public static int MaxLevel = 2;
+    public static int MaxLevel = 4;
     public static int Level = 1;
     public static int NewLevel = 0;
 
-    public static GameObject CurrentLevel;
+    public static GameObject FirstLevel;
+    public static GameObject LastLevel; 
 
     void Start()
     {
-        GameManager.CurrentLevel = Resources.Load<GameObject>("Levels/Level" + Level.ToString());
-        if (!GameManager.CurrentLevel)
+        DOTween.Init();
+        if (!PlayerPrefs.HasKey("Level"))
         {
-             
+            PlayerPrefs.SetInt("Level", 1);
         }
-        GameManager.CurrentLevel = GameObject.Instantiate(GameManager.CurrentLevel, new Vector3(9.0f, 7.1f, -3.5f), Quaternion.identity);
+        GameManager.Level = PlayerPrefs.GetInt("Level");
+        ChangeLevelText();
+
+        GameObject instantlevel;
+        if (GameManager.Level > GameManager.MaxLevel)
+        {
+            int randomlevel = UnityEngine.Random.Range(1, GameManager.MaxLevel + 1);
+            instantlevel = Resources.Load<GameObject>("Levels/Level" + randomlevel.ToString());
+        }
+        else
+        {
+            instantlevel = Resources.Load<GameObject>("Levels/Level" + (GameManager.Level).ToString());
+        }
+        GameManager.FirstLevel = GameObject.Instantiate(instantlevel, new Vector3(9.0f, 7.1f, -3.5f), Quaternion.identity);
         gameStatus = GameStatus.start;
     }
 
@@ -74,9 +95,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MainGame");
     }
 
-    public void AddPoint()
+    public void ChangeLevelText()
     {
-        CurrentLevelPoint++;
-        pointtext.text = CurrentLevelPoint.ToString();
+        leveltext.text = GameManager.Level.ToString();
+    }
+
+    public void LevelCompleteScreenButton()
+    {
+        GameManager.gameStatus = GameStatus.start;
+        LevelCompleteScreen.SetActive(false);
+        StartScreen.SetActive(true);
     }
 }
