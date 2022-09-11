@@ -23,6 +23,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     GameManager gameManager;
 
+    [SerializeField]
+    GameObject camera;
+
     void Start()
     {
         
@@ -70,7 +73,8 @@ public class PlayerScript : MonoBehaviour
 
                 GameManager.LastLevel = GameObject.Instantiate(instantlevel, new Vector3(9.0f, 7.1f, -3.5f + (GameManager.NewLevel * 166.0f)), Quaternion.identity);
                 GameManager.gameStatus = GameManager.GameStatus.pause;
-                transform.DOMoveZ(transform.position.z + 20.0f, 2.0f);
+                transform.DOMoveZ(transform.position.z + 25.0f, 2.0f);
+                camera.transform.DORotate(new Vector3(90.0f, 0.0f, 0.0f), 1.0f).OnComplete(() => camera.transform.DORotate(new Vector3(30.0f, 0.0f, 0.0f), 1.0f));
             }
         }
         if(other.tag == "DeleteLevel")
