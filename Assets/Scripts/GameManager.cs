@@ -30,14 +30,12 @@ public class GameManager : MonoBehaviour
     GameObject GameOverScreen;
 
     [Header("UI Text")]
-    [SerializeField]
-    Text pointtext;
 
     [SerializeField]
     Text leveltext;
     #endregion
 
-    public static int MaxLevel = 4;
+    public static int MaxLevel = 10;
     public static int Level = 1;
     public static int NewLevel = 0;
 
@@ -47,13 +45,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DOTween.Init();
+        GameManager.FirstLevel = null;
+        GameManager.LastLevel = null;
+        GameManager.NewLevel = 0;
         if (!PlayerPrefs.HasKey("Level"))
         {
             PlayerPrefs.SetInt("Level", 1);
         }
         GameManager.Level = PlayerPrefs.GetInt("Level");
         ChangeLevelText();
-
+        
         GameObject instantlevel;
         if (GameManager.Level > GameManager.MaxLevel)
         {

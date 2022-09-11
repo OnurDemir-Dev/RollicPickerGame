@@ -1494,7 +1494,6 @@ MonoBehaviour:
   StartScreen: {fileID: 285783516}
   LevelCompleteScreen: {fileID: 269861598}
   GameOverScreen: {fileID: 334359225}
-  pointtext: {fileID: 0}
   leveltext: {fileID: 483286537}
 --- !u!4 &1795803633
 Transform:
@@ -1792,6 +1791,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619637059949580773, guid: 86f3b4aea1558754f9bf204bd18e1c04,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1619637059949580773, guid: 86f3b4aea1558754f9bf204bd18e1c04,
         type: 3}
