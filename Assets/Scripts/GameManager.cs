@@ -35,7 +35,32 @@ public class GameManager : MonoBehaviour
     Text leveltext;
     #endregion
 
-    public static int MaxLevel = 10;
+    //When play game on Unity Editor
+    #region Change Level
+#if UNITY_EDITOR
+    [Header("Change Level")]
+    [SerializeField]
+    bool ExecuteChangeLevel = false;
+
+    [SerializeField]
+    int ChangeLeveNum = 1;
+
+    void ChangeLevel()
+    {
+        if (ExecuteChangeLevel)
+        {
+            if (ChangeLeveNum < 1) ChangeLeveNum = 1;
+            PlayerPrefs.SetInt("Level", ChangeLeveNum);
+            SceneManager.LoadScene("MainGame");
+            ExecuteChangeLevel = false;
+        }
+    }
+
+#endif 
+    #endregion
+
+
+    public const int MaxLevel = 10;
     public static int Level = 1;
     public static int NewLevel = 0;
 
@@ -84,6 +109,11 @@ public class GameManager : MonoBehaviour
                 StartScreen.gameObject.SetActive(false);
             }
         }
+
+        //When play game on Unity Editor
+#if UNITY_EDITOR
+        ChangeLevel(); 
+#endif
     }
 
     public void GameOver()

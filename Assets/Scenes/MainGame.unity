@@ -1495,6 +1495,8 @@ MonoBehaviour:
   LevelCompleteScreen: {fileID: 269861598}
   GameOverScreen: {fileID: 334359225}
   leveltext: {fileID: 483286537}
+  ExecuteChangeLevel: 0
+  ChangeLeveNum: 1
 --- !u!4 &1795803633
 Transform:
   m_ObjectHideFlags: 0

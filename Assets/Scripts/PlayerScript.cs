@@ -58,7 +58,6 @@ public class PlayerScript : MonoBehaviour
                 PlayerPrefs.SetInt("Level", GameManager.Level);
                 gameManager.ChangeLevelText();
 
-                Debug.Log(GameManager.NewLevel);
                 Destroy(other.gameObject);
                 GameObject instantlevel;
                 if (GameManager.Level > GameManager.MaxLevel)
